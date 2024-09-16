@@ -1,0 +1,5 @@
+Flask
+Werkzeug
+boto3
+Flask-Cors
+python-dotenv

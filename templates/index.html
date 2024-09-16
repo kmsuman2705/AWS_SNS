@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+<body>
+    <h1>Welcome to the Flask App</h1>
+    <p>This is the home page.</p>
+    <form id="smsForm">
+        <label for="phone_number">Phone Number:</label>
+        <input type="text" id="phone_number" name="phone_number" required>
+        <br>
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea>
+        <br>
+        <button type="submit">Send SMS</button>
+    </form>
+
+    <div id="response"></div>
+
+    <script>
+        document.getElementById('smsForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const phoneNumber = document.getElementById('phone_number').value;
+            const message = document.getElementById('message').value;
+
+            fetch('/send_sms', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ phone_number: phoneNumber, message: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response').innerText = JSON.stringify(data);
+            })
+            .catch(error => {
+                document.getElementById('response').innerText = 'An error occurred: ' + error;
+            });
+        });
+    </script>
+</body>
+</html>
